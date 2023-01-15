@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "timer (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "timer (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
