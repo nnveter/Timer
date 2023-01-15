@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Linq;
 
 namespace timer.utils;
 
@@ -21,7 +22,7 @@ public class ConvertUtils
 
     public static int ParseInt(string str)
     {
-        if (Int32.TryParse(str, out int result)) return result;
+        if (int.TryParse(str, out int result)) return result;
         return 0;
     }
 

@@ -3,8 +3,10 @@
 
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System.Runtime.InteropServices;
+using timer.utils;
 using WinRT;
 using WinUIEx;
 
@@ -21,7 +23,7 @@ namespace timer
         MicaController m_backdropController;
         SystemBackdropConfiguration m_configurationSource;
 
-
+        int isWork = 0;
         public MainWindow()
         {
             this.InitializeComponent();
@@ -30,8 +32,41 @@ namespace timer
             TrySetSystemBackdrop();
         }
 
+        private void TextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            ConvertUtils.StringToMs(TimerBox.Text);
+        }
 
-
+        private void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton button = (AppBarButton)sender;
+            switch (button.Tag) 
+            {
+                case "Start":
+                    isWork = 1;
+                    break;
+                case "Stop":
+                    isWork = 0;
+                    break;
+                case "Pause":
+                    isWork = 2;
+                    break;
+            }
+            if (isWork == 1)
+            {
+                Stop.IsEnabled = true;
+                Pause.IsEnabled = true;
+            }
+            else if (isWork == 0)
+            {
+                Stop.IsEnabled = false;
+                Pause.IsEnabled = false;
+            }
+            else 
+            { 
+                Pause.IsEnabled = true;
+            }
+        }
 
 
         //Thems
@@ -98,16 +133,6 @@ namespace timer
                 case ElementTheme.Light: m_configurationSource.Theme = Microsoft.UI.Composition.SystemBackdrops.SystemBackdropTheme.Light; break;
                 case ElementTheme.Default: m_configurationSource.Theme = Microsoft.UI.Composition.SystemBackdrops.SystemBackdropTheme.Default; break;
             }
-        }
-
-        private void Image_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-
-        }
-
-        private void TextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
-        {
-
         }
     }
 
