@@ -25,7 +25,8 @@ namespace timer
         public MainWindow()
         {
             this.InitializeComponent();
-
+            ExtendsContentIntoTitleBar = true;
+            SetTitleBar(AppTitleBar);
             TrySetSystemBackdrop();
         }
 
@@ -100,6 +101,11 @@ namespace timer
         }
 
         private void Image_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+
+        }
+
+        private void TextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
 
         }

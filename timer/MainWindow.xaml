@@ -9,9 +9,41 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    IsMinimizable="True" IsMaximizable="False" Height="170" Width="320" IsResizable="False">
+    IsMinimizable="True" IsMaximizable="False" Height="170" Width="350" IsResizable="False">
 
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Button x:Name="myButton">Click Me</Button>
-    </StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="28"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <Grid x:Name="AppTitleBar" Background="Transparent">
+
+            <Image x:Name="TitleImage" VerticalAlignment="Center"
+                   HorizontalAlignment="Left" 
+                   Width="16" Height="16" 
+                   Margin="8,0,0,5"/>
+
+            <TextBlock x:Name="AppTitleTextBlock" Text="Features"
+                   TextWrapping="NoWrap"
+                   Style="{StaticResource CaptionTextBlockStyle}" 
+                   VerticalAlignment="Center"
+                   Margin="28,0,0,0"/>
+        </Grid>
+
+        <Grid  Grid.Row="1">
+            <ProgressBar MinHeight="170" IsIndeterminate="False" Value="50" />
+
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBox PreviewKeyDown="TextBox_PreviewKeyDown" Background="#FF242424"/>
+                <StackPanel HorizontalAlignment="Center" Margin="0,10,0,0">
+                    <CommandBar Background="Transparent" DefaultLabelPosition="Right">
+                        <AppBarButton Icon="Play" Label="Start" Margin="0,0,10,0" />
+                        <AppBarButton Icon="Stop" Label="Stop" Margin="0,0,10,0"/>
+                        <AppBarButton Icon="Pause" Label="Pause" Margin="0,0,10,0"/>
+                    </CommandBar>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
 </Window:WindowEx>
