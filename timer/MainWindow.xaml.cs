@@ -7,24 +7,30 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System;
+using System.ComponentModel;
+using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
+using System.Threading;
 using timer.utils;
-using Windows.UI.Notifications;
+using Windows.UI.Shell;
 using WinRT;
 using WinUIEx;
+
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace timer
 {
-    
+
     public sealed partial class MainWindow : WindowEx
     {
 
         WindowsSystemDispatcherQueueHelper m_wsdqHelper; // See below for implementation.
         MicaController m_backdropController;
         SystemBackdropConfiguration m_configurationSource;
+
+        //IntPtr hwnd;
 
         public static DispatcherTimer dispatcherTimer = new DispatcherTimer();
 
@@ -40,6 +46,11 @@ namespace timer
 
             dispatcherTimer.Tick += dispatcherTimer_Tick;
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+
+            //hwnd = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
+            //TaskbarProgress.SetState(hwnd, TaskbarProgress.TaskbarStates.Normal);
+            //Console.Write("\r{0}%", "10");
+            //TaskbarProgress.Reset(hwnd);
         }
 
         void Finish()
@@ -60,6 +71,7 @@ namespace timer
             ProgressBar.Value = thisTime;
             TimeSpan ts = TimeSpan.FromSeconds(endTime) - TimeSpan.FromSeconds(thisTime); 
             TimerBox.Text = ts.ToString();
+            //TaskbarProgress.SetValue(hwnd, thisTime, endTime);
             if (thisTime >= endTime) {
                 Finish();
                 dispatcherTimer.Stop();
@@ -69,11 +81,14 @@ namespace timer
 
         void TextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
-            ProgressBar.Maximum = ConvertUtils.MainStringToMs(TimerBox.Text);
-            endTime = ConvertUtils.MainStringToMs(TimerBox.Text);
-            thisTime = 0;
-            dispatcherTimer.Start();
-            isWork = 1;
+            if (e.Key == Windows.System.VirtualKey.Enter) {
+                ProgressBar.Maximum = ConvertUtils.MainStringToMs(TimerBox.Text);
+                endTime = ConvertUtils.MainStringToMs(TimerBox.Text);
+                thisTime = 0;
+                dispatcherTimer.Start();
+                isWork = 1;
+                CheckButton();
+            }
         }
 
         void AppBarButton_Click(object sender, RoutedEventArgs e)
