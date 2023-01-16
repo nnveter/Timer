@@ -19,7 +19,7 @@
         
         <Grid x:Name="AppTitleBar" Background="Transparent">
             <ProgressBar x:Name="ProgressBar" MinHeight="58" VerticalAlignment="Center" Margin="0,-30,0,0" IsIndeterminate="False" Value="0" />
-            <Image x:Name="TitleImage" VerticalAlignment="Center"
+            <Image x:Name="TitleImage" VerticalAlignment="Bottom" Source="Assets\StoreLogo.png"
                    HorizontalAlignment="Left" 
                    Width="16" Height="16" 
                    Margin="8,0,0,5"/>
