@@ -69,7 +69,11 @@ namespace timer
 
         void TextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
-            //ConvertUtils.StringToMs(TimerBox.Text);
+            ProgressBar.Maximum = ConvertUtils.MainStringToMs(TimerBox.Text);
+            endTime = ConvertUtils.MainStringToMs(TimerBox.Text);
+            thisTime = 0;
+            dispatcherTimer.Start();
+            isWork = 1;
         }
 
         void AppBarButton_Click(object sender, RoutedEventArgs e)
