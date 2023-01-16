@@ -7,11 +7,14 @@ public class ConvertUtils
 {
     public static long MainStringToMs(string str)
     {
-        if (str.Contains(".") || str.Contains(":"))
-            return StringToMs(str);
-        return StringToMs2(str);
+        if (str.Contains("s") ||
+            str.Contains("m") ||
+            str.Contains("h") ||
+            str.Contains("d"))
+            return StringToMs2(str);
+        return StringToMs(str);
     }
-    
+
     public static long StringToMs(string str)
     {
         str = str.Replace(":", ".");

@@ -1,12 +1,15 @@
 // Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
+using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using System;
 using System.Runtime.InteropServices;
 using timer.utils;
+using Windows.UI.Notifications;
 using WinRT;
 using WinUIEx;
 
@@ -23,47 +26,106 @@ namespace timer
         MicaController m_backdropController;
         SystemBackdropConfiguration m_configurationSource;
 
+        public static DispatcherTimer dispatcherTimer = new DispatcherTimer();
+
         int isWork = 0;
+        long thisTime = 0;
+        long endTime;
         public MainWindow()
         {
             this.InitializeComponent();
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(AppTitleBar);
             TrySetSystemBackdrop();
+
+            dispatcherTimer.Tick += dispatcherTimer_Tick;
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
         }
 
-        private void TextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        void Finish()
         {
-            ConvertUtils.StringToMs(TimerBox.Text);
+            new ToastContentBuilder()
+                .AddArgument("action", "viewConversation")
+                .AddText("Время вышло!")
+                .Show();
+            isWork = 0;
+            thisTime = 0;
+            CheckButton();
         }
 
-        private void AppBarButton_Click(object sender, RoutedEventArgs e)
+        
+        void dispatcherTimer_Tick(object sender, object e)
+        {
+            thisTime++;
+            ProgressBar.Value = thisTime;
+            TimeSpan ts = TimeSpan.FromSeconds(endTime) - TimeSpan.FromSeconds(thisTime); 
+            TimerBox.Text = ts.ToString();
+            if (thisTime >= endTime) {
+                Finish();
+                dispatcherTimer.Stop();
+                return;
+            }           
+        }
+
+        void TextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            //ConvertUtils.StringToMs(TimerBox.Text);
+        }
+
+        void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
             AppBarButton button = (AppBarButton)sender;
             switch (button.Tag) 
             {
                 case "Start":
+                    ProgressBar.Maximum = ConvertUtils.MainStringToMs(TimerBox.Text);
+                    endTime = ConvertUtils.MainStringToMs(TimerBox.Text);
+                    thisTime = 0;
+                    dispatcherTimer.Start();
                     isWork = 1;
                     break;
                 case "Stop":
+                    ProgressBar.Value = 0;
+                    TimerBox.Text = "";
+                    thisTime = 0;
+                    dispatcherTimer.Stop();
                     isWork = 0;
                     break;
                 case "Pause":
-                    isWork = 2;
+                    Pause_();
                     break;
             }
+            CheckButton();
+        }
+
+        void Pause_() {
+            if (isWork == 2)
+            {
+                dispatcherTimer.Start();
+                isWork = 1;
+            }
+            else {
+                dispatcherTimer.Stop();
+                isWork = 2;
+            }
+        }
+
+        void CheckButton() {
             if (isWork == 1)
             {
+                Pause.Label = "Pause";
                 Stop.IsEnabled = true;
                 Pause.IsEnabled = true;
             }
             else if (isWork == 0)
             {
+                Pause.Label = "Pause";
                 Stop.IsEnabled = false;
                 Pause.IsEnabled = false;
             }
-            else 
-            { 
+            else
+            {
+                Pause.Label = "Resume";
                 Pause.IsEnabled = true;
             }
         }

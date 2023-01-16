@@ -18,24 +18,26 @@
         </Grid.RowDefinitions>
         
         <Grid x:Name="AppTitleBar" Background="Transparent">
-
+            <ProgressBar x:Name="ProgressBar" MinHeight="58" VerticalAlignment="Center" Margin="0,-30,0,0" IsIndeterminate="False" Value="0" />
             <Image x:Name="TitleImage" VerticalAlignment="Center"
                    HorizontalAlignment="Left" 
                    Width="16" Height="16" 
                    Margin="8,0,0,5"/>
 
-            <TextBlock x:Name="AppTitleTextBlock" Text="Features"
+            <TextBlock x:Name="AppTitleTextBlock" Text="Timer"
                    TextWrapping="NoWrap"
                    Style="{StaticResource CaptionTextBlockStyle}" 
                    VerticalAlignment="Center"
                    Margin="28,0,0,0"/>
+           
         </Grid>
 
         <Grid  Grid.Row="1">
-            <ProgressBar MinHeight="170" IsIndeterminate="False" Value="50" />
 
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBox x:Name="TimerBox" PreviewKeyDown="TextBox_PreviewKeyDown" Background="#FF242424"/>
+            <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                <TextBox x:Name="TimerBox" PreviewKeyDown="TextBox_PreviewKeyDown" Background="#FF242424">
+                    
+                </TextBox>
                 <StackPanel HorizontalAlignment="Center" Margin="0,10,0,0">
                     <CommandBar Background="Transparent" DefaultLabelPosition="Right">
                         <AppBarButton Tag="Start"  Icon="Play" Label="Start" Margin="0,0,10,0" Click="AppBarButton_Click" />
@@ -44,6 +46,7 @@
                     </CommandBar>
                 </StackPanel>
             </StackPanel>
+            <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Right" x:Name="txt"/>
         </Grid>
     </Grid>
 </Window:WindowEx>
