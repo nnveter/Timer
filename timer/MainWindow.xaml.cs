@@ -12,9 +12,11 @@ using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
 using System.Threading;
 using timer.utils;
+using Vanara.PInvoke;
 using Windows.UI.Shell;
 using WinRT;
 using WinUIEx;
+using static Vanara.PInvoke.Shell32;
 
 
 // To learn more about WinUI, the WinUI project structure,
