@@ -9,10 +9,10 @@
 
 This application is a minimalistic Timer(winui3 windows app)
 
-# Input example:
-- 2.4.3 (Hour:Minute:Second)
-- 2:4:3 (Hour:Minute:A second)
-- 2h 4m 3s (Hour:Minute:A second)
+# Input example (2 hours 4 minutes 3 seconds):
+- 2.4.3
+- 2:4:3
+- 2h 4m 3s
 - The input of days is also supported
 
 # How to launch
